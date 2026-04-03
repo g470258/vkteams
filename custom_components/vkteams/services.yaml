@@ -65,7 +65,19 @@ send_photo:
     url:
       name: Image URL
       description: URL of the image to send
-      required: true
+      required: false
+      selector:
+        text:
+    file:
+      name: Local file path
+      description: Absolute path to local image file (e.g., /config/www/photo.jpg)
+      required: false
+      selector:
+        text:
+    caption:
+      name: Caption
+      description: Photo caption
+      required: false
       selector:
         text:
     entity_id:
@@ -84,12 +96,6 @@ send_photo:
       selector:
         text:
           multiple: true
-    caption:
-      name: Caption
-      description: Photo caption
-      required: false
-      selector:
-        text:
     buttons:
       name: Inline buttons
       description: Buttons to display under the photo
@@ -115,7 +121,19 @@ send_video:
     url:
       name: Video URL
       description: URL of the video to send
-      required: true
+      required: false
+      selector:
+        text:
+    file:
+      name: Local file path
+      description: Absolute path to local video file (e.g., /config/www/video.mp4)
+      required: false
+      selector:
+        text:
+    caption:
+      name: Caption
+      description: Video caption
+      required: false
       selector:
         text:
     entity_id:
@@ -134,12 +152,6 @@ send_video:
       selector:
         text:
           multiple: true
-    caption:
-      name: Caption
-      description: Video caption
-      required: false
-      selector:
-        text:
     buttons:
       name: Inline buttons
       description: Buttons to display under the video

@@ -31,25 +31,33 @@ SERVICE_SEND_MESSAGE_SCHEMA = vol.Schema({
     vol.Optional("disable_notification"): cv.boolean,
 })
 
-SERVICE_SEND_PHOTO_SCHEMA = vol.Schema({
-    vol.Required("url"): cv.string,
-    vol.Optional("entity_id"): vol.Any(cv.entity_id, [cv.entity_id]),
-    vol.Optional("chat_id"): vol.Any(cv.string, [cv.string]),
-    vol.Optional("caption"): cv.string,
-    vol.Optional("buttons"): list,
-    vol.Optional("buttons_layout"): vol.In(["row", "column"]),
-    vol.Optional("disable_notification"): cv.boolean,
-})
+SERVICE_SEND_PHOTO_SCHEMA = vol.Schema(
+    {
+        vol.Required("url", default=None): vol.Any(cv.string, None),
+        vol.Optional("file"): cv.string,
+        vol.Optional("caption"): cv.string,
+        vol.Optional("entity_id"): vol.Any(cv.entity_id, [cv.entity_id]),
+        vol.Optional("chat_id"): vol.Any(cv.string, [cv.string]),
+        vol.Optional("buttons"): list,
+        vol.Optional("buttons_layout"): vol.In(["row", "column"]),
+        vol.Optional("disable_notification"): cv.boolean,
+    },
+    extra=vol.ALLOW_EXTRA,
+)
 
-SERVICE_SEND_VIDEO_SCHEMA = vol.Schema({
-    vol.Required("url"): cv.string,
-    vol.Optional("entity_id"): vol.Any(cv.entity_id, [cv.entity_id]),
-    vol.Optional("chat_id"): vol.Any(cv.string, [cv.string]),
-    vol.Optional("caption"): cv.string,
-    vol.Optional("buttons"): list,
-    vol.Optional("buttons_layout"): vol.In(["row", "column"]),
-    vol.Optional("disable_notification"): cv.boolean,
-})
+SERVICE_SEND_VIDEO_SCHEMA = vol.Schema(
+    {
+        vol.Required("url", default=None): vol.Any(cv.string, None),
+        vol.Optional("file"): cv.string,
+        vol.Optional("caption"): cv.string,
+        vol.Optional("entity_id"): vol.Any(cv.entity_id, [cv.entity_id]),
+        vol.Optional("chat_id"): vol.Any(cv.string, [cv.string]),
+        vol.Optional("buttons"): list,
+        vol.Optional("buttons_layout"): vol.In(["row", "column"]),
+        vol.Optional("disable_notification"): cv.boolean,
+    },
+    extra=vol.ALLOW_EXTRA,
+)
 
 SERVICE_EDIT_MESSAGE_SCHEMA = vol.Schema({
     vol.Required("message_id"): int,
@@ -308,7 +316,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         
         message_text = call.data["message"]
         if title:
-            # Форматируем title в зависимости от parse_mode
             if msg_parse_mode == "HTML":
                 message_text = f"<b>{title}</b>\n{message_text}"
             elif msg_parse_mode == "MarkdownV2":
@@ -346,10 +353,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         msg_parse_mode = call.data.get("parse_mode", parse_mode)
         caption = call.data.get("caption")
         
+        url = call.data.get("url")
+        file_path = call.data.get("file")
+        
         for chat_id in chat_ids:
             result = await bot.send_photo(
                 chat_id=chat_id,
-                photo_url=call.data["url"],
+                photo_url=url,
+                photo_path=file_path,
                 caption=caption,
                 parse_mode=msg_parse_mode,
                 inline_keyboard=inline_keyboard
@@ -376,10 +387,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         msg_parse_mode = call.data.get("parse_mode", parse_mode)
         caption = call.data.get("caption")
         
+        url = call.data.get("url")
+        file_path = call.data.get("file")
+        
         for chat_id in chat_ids:
             result = await bot.send_video(
                 chat_id=chat_id,
-                video_url=call.data["url"],
+                video_url=url,
+                video_path=file_path,
                 caption=caption,
                 parse_mode=msg_parse_mode,
                 inline_keyboard=inline_keyboard
