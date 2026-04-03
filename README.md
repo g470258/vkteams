@@ -108,7 +108,7 @@ data:
 </details>
 
 <details>
-<summary><b>🔘 Отправка сообщения с инлайн-кнопками</b></summary>
+<summary><b>🔘 Отправка сообщения с инлайн-кнопками (горизонтально)</b></summary>
 
 ```yaml
 action: vkteams.send_message
@@ -121,14 +121,55 @@ data:
     - text: "💡 Выключить"
       callbackData: "light_off"
       style: "secondary"
-  buttons_layout: "row"
 ```
+
+Результат: `[💡 Включить] [💡 Выключить]` (в одной строке)
 
 Параметры кнопок:
 - `text` — текст на кнопке
 - `callbackData` — данные, возвращаемые при нажатии
-- `style` — стиль: `default`, `primary`, `secondary`, `danger`
-- `buttons_layout` — расположение: `row` (горизонтально) или `column` (вертикально)
+- `style` — стиль подсвечивания кнопок: `default`(по умолчанию), `primary`, `secondary`, `danger`
+</details>
+
+<details>
+<summary><b>🎛️ Сетка кнопок (матрица 3x3)</b></summary>
+
+```yaml
+action: vkteams.send_message
+data:
+  message: "Калькулятор:"
+  buttons:
+    - - text: "1"
+        callbackData: "1"
+      - text: "2"
+        callbackData: "2"
+      - text: "3"
+        callbackData: "3"
+    - - text: "4"
+        callbackData: "4"
+      - text: "5"
+        callbackData: "5"
+      - text: "6"
+        callbackData: "6"
+    - - text: "7"
+        callbackData: "7"
+      - text: "8"
+        callbackData: "8"
+      - text: "9"
+        callbackData: "9"
+    - - text: "0"
+        callbackData: "0"
+```
+
+Результат:
+```
+[1][2][3]
+[4][5][6]
+[7][8][9]
+[0]
+```
+
+Каждый вложенный массив — это отдельная строка кнопок.
 </details>
 
 <details>
