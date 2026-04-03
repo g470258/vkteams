@@ -1,0 +1,264 @@
+send_message:
+  name: Send message
+  description: Send a text message via VK Teams bot
+  fields:
+    message:
+      name: Message
+      description: Message text
+      required: true
+      selector:
+        text:
+          multiline: true
+    entity_id:
+      name: Notify entities
+      description: Notify entities (optional, uses first allowed chat if not specified)
+      required: false
+      selector:
+        entity:
+          domain: notify
+          integration: vkteams
+          multiple: true
+    chat_id:
+      name: Chat IDs
+      description: Direct chat IDs (alternative to entity_id)
+      required: false
+      selector:
+        text:
+          multiple: true
+    title:
+      name: Title
+      description: Optional title. Will be formatted as bold in HTML/MarkdownV2 modes
+      required: false
+      selector:
+        text:
+    parse_mode:
+      name: Parse mode
+      description: Message formatting mode. HTML (<b>bold</b>, <i>italic</i>) or MarkdownV2 (*bold*, _italic_)
+      required: false
+      selector:
+        select:
+          options: ["HTML", "MarkdownV2"]
+    buttons:
+      name: Inline buttons
+      description: 'Buttons: [{"text": "Button", "callbackData": "data", "style": "primary"}]'
+      required: false
+      selector:
+        object:
+    buttons_layout:
+      name: Buttons layout
+      description: '"row" - horizontal (default), "column" - vertical'
+      required: false
+      selector:
+        select:
+          options: ["row", "column"]
+    disable_notification:
+      name: Disable notification
+      description: Send message silently
+      required: false
+      selector:
+        boolean:
+
+send_photo:
+  name: Send photo
+  description: Send a photo message via VK Teams bot
+  fields:
+    url:
+      name: Image URL
+      description: URL of the image to send
+      required: true
+      selector:
+        text:
+    entity_id:
+      name: Notify entities
+      description: Notify entities (optional, uses first allowed chat if not specified)
+      required: false
+      selector:
+        entity:
+          domain: notify
+          integration: vkteams
+          multiple: true
+    chat_id:
+      name: Chat IDs
+      description: Direct chat IDs (alternative to entity_id)
+      required: false
+      selector:
+        text:
+          multiple: true
+    caption:
+      name: Caption
+      description: Photo caption
+      required: false
+      selector:
+        text:
+    buttons:
+      name: Inline buttons
+      description: Buttons to display under the photo
+      required: false
+      selector:
+        object:
+    buttons_layout:
+      name: Buttons layout
+      required: false
+      selector:
+        select:
+          options: ["row", "column"]
+    disable_notification:
+      name: Disable notification
+      required: false
+      selector:
+        boolean:
+
+send_video:
+  name: Send video
+  description: Send a video message via VK Teams bot
+  fields:
+    url:
+      name: Video URL
+      description: URL of the video to send
+      required: true
+      selector:
+        text:
+    entity_id:
+      name: Notify entities
+      description: Notify entities (optional, uses first allowed chat if not specified)
+      required: false
+      selector:
+        entity:
+          domain: notify
+          integration: vkteams
+          multiple: true
+    chat_id:
+      name: Chat IDs
+      description: Direct chat IDs (alternative to entity_id)
+      required: false
+      selector:
+        text:
+          multiple: true
+    caption:
+      name: Caption
+      description: Video caption
+      required: false
+      selector:
+        text:
+    buttons:
+      name: Inline buttons
+      description: Buttons to display under the video
+      required: false
+      selector:
+        object:
+    buttons_layout:
+      name: Buttons layout
+      required: false
+      selector:
+        select:
+          options: ["row", "column"]
+    disable_notification:
+      name: Disable notification
+      required: false
+      selector:
+        boolean:
+
+edit_message:
+  name: Edit message
+  description: Edit an existing message
+  fields:
+    message_id:
+      name: Message ID
+      description: ID of the message to edit
+      required: true
+      selector:
+        number:
+    message:
+      name: New message
+      description: New message text
+      required: true
+      selector:
+        text:
+          multiline: true
+    entity_id:
+      name: Notify entity
+      description: Notify entity (optional, uses first allowed chat if not specified)
+      required: false
+      selector:
+        entity:
+          domain: notify
+          integration: vkteams
+    chat_id:
+      name: Chat ID
+      description: Direct chat ID (alternative to entity_id)
+      required: false
+      selector:
+        text:
+    parse_mode:
+      name: Parse mode
+      required: false
+      selector:
+        select:
+          options: ["HTML", "MarkdownV2"]
+    buttons:
+      name: Inline buttons
+      description: New buttons (empty array to remove)
+      required: false
+      selector:
+        object:
+    buttons_layout:
+      name: Buttons layout
+      required: false
+      selector:
+        select:
+          options: ["row", "column"]
+
+delete_messages:
+  name: Delete messages
+  description: Delete one or more messages (must be less than 48 hours old)
+  fields:
+    message_ids:
+      name: Message IDs
+      description: List of message IDs to delete
+      required: true
+      selector:
+        object:
+    entity_id:
+      name: Notify entity
+      description: Notify entity (optional, uses first allowed chat if not specified)
+      required: false
+      selector:
+        entity:
+          domain: notify
+          integration: vkteams
+    chat_id:
+      name: Chat ID
+      description: Direct chat ID (alternative to entity_id)
+      required: false
+      selector:
+        text:
+
+answer_callback:
+  name: Answer callback
+  description: Answer a callback query from a button click
+  fields:
+    query_id:
+      name: Query ID
+      description: Callback query ID from the event
+      required: true
+      selector:
+        text:
+    text:
+      name: Notification text
+      description: Text to show in notification
+      required: false
+      selector:
+        text:
+    show_alert:
+      name: Show as alert
+      description: Show as alert window instead of toast
+      required: false
+      default: false
+      selector:
+        boolean:
+    url:
+      name: URL
+      description: URL to open when button is clicked
+      required: false
+      selector:
+        text:

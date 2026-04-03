@@ -1,0 +1,55 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "VK Teams Bot Setup",
+        "description": "Enter your bot credentials from @Metabot",
+        "data": {
+          "token": "Bot token",
+          "api_url": "API server URL",
+          "parse_mode": "Parse mode",
+          "poll_interval": "Poll interval (seconds)"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid token or API URL"
+    },
+    "abort": {
+      "already_configured": "Integration already configured"
+    }
+  },
+  "selector": {
+    "parse_mode": {
+      "options": {
+        "HTML": "HTML",
+        "MarkdownV2": "MarkdownV2"
+      }
+    }
+  },
+  "config_subentries": {
+    "allowed_chat_ids": {
+      "name": "Allowed chat",
+      "step": {
+        "user": {
+          "title": "Add allowed chat",
+          "description": "Enter chat ID or user ID (e.g., user@example.com or 123456789@chat.agent)",
+          "data": {
+            "chat_id": "Chat ID"
+          }
+        }
+      },
+      "error": {
+        "invalid_chat_id": "Invalid chat ID",
+        "chat_not_found": "Chat not found. Check the ID or make sure the bot is added to the group"
+      }
+    }
+  },
+  "entity": {
+    "event": {
+      "update_event": {
+        "name": "Bot updates"
+      }
+    }
+  }
+}
