@@ -50,5 +50,195 @@
         "name": "Обновления бота"
       }
     }
+  },
+  "services": {
+    "send_message": {
+      "name": "Отправить сообщение",
+      "description": "Отправить текстовое сообщение через бота VK Teams",
+      "fields": {
+        "message": {
+          "name": "Сообщение",
+          "description": "Текст сообщения"
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "description": "Notify сущности (опционально)"
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "description": "ID чата (альтернатива entity_id)"
+        },
+        "title": {
+          "name": "Заголовок",
+          "description": "Будет выделен жирным"
+        },
+        "parse_mode": {
+          "name": "Режим форматирования",
+          "description": "HTML или MarkdownV2"
+        },
+        "buttons": {
+          "name": "inline кнопки",
+          "description": "Массив кнопок"
+        },
+        "buttons_layout": {
+          "name": "Расположение кнопок",
+          "description": "row - горизонтально, column - вертикально"
+        },
+        "disable_notification": {
+          "name": "Без звука",
+          "description": "Отправить без уведомления"
+        }
+      }
+    },
+    "send_photo": {
+      "name": "Отправить фото",
+      "description": "Отправить фото через бота VK Teams",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "Ссылка на фото"
+        },
+        "file": {
+          "name": "Локальный файл",
+          "description": "Путь к файлу, например /config/www/photo.jpg"
+        },
+        "caption": {
+          "name": "Подпись",
+          "description": "Текст под фото"
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "description": "Notify сущности (опционально)"
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "description": "ID чата (альтернатива entity_id)"
+        },
+        "buttons": {
+          "name": "inline кнопки",
+          "description": "Массив кнопок под фото"
+        },
+        "buttons_layout": {
+          "name": "Расположение кнопок",
+          "description": "row - горизонтально, column - вертикально"
+        },
+        "disable_notification": {
+          "name": "Без звука",
+          "description": "Отправить без уведомления"
+        }
+      }
+    },
+    "send_video": {
+      "name": "Отправить видео",
+      "description": "Отправить видео через бота VK Teams",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "Ссылка на видео"
+        },
+        "file": {
+          "name": "Локальный файл",
+          "description": "Путь к файлу, например /config/www/video.mp4"
+        },
+        "caption": {
+          "name": "Подпись",
+          "description": "Текст под видео"
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "description": "Notify сущности (опционально)"
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "description": "ID чата (альтернатива entity_id)"
+        },
+        "buttons": {
+          "name": "inline кнопки",
+          "description": "Массив кнопок под видео"
+        },
+        "buttons_layout": {
+          "name": "Расположение кнопок",
+          "description": "row - горизонтально, column - вертикально"
+        },
+        "disable_notification": {
+          "name": "Без звука",
+          "description": "Отправить без уведомления"
+        }
+      }
+    },
+    "edit_message": {
+      "name": "Редактировать сообщение",
+      "description": "Редактировать существующее сообщение",
+      "fields": {
+        "message_id": {
+          "name": "ID сообщения",
+          "description": "ID сообщения для редактирования"
+        },
+        "message": {
+          "name": "Новый текст",
+          "description": "Новое содержимое сообщения"
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "description": "Notify сущность (опционально)"
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "description": "ID чата (альтернатива entity_id)"
+        },
+        "parse_mode": {
+          "name": "Режим форматирования",
+          "description": "HTML или MarkdownV2"
+        },
+        "buttons": {
+          "name": "inline кнопки",
+          "description": "Новый массив кнопок"
+        },
+        "buttons_layout": {
+          "name": "Расположение кнопок",
+          "description": "row - горизонтально, column - вертикально"
+        }
+      }
+    },
+    "delete_messages": {
+      "name": "Удалить сообщения",
+      "description": "Удалить одно или несколько сообщений",
+      "fields": {
+        "message_ids": {
+          "name": "ID сообщений",
+          "description": "Список ID для удаления"
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "description": "Notify сущность (опционально)"
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "description": "ID чата (альтернатива entity_id)"
+        }
+      }
+    },
+    "answer_callback": {
+      "name": "Ответить на callback",
+      "description": "Ответить на нажатие inline кнопки",
+      "fields": {
+        "query_id": {
+          "name": "ID запроса",
+          "description": "ID callback запроса"
+        },
+        "text": {
+          "name": "Текст",
+          "description": "Текст уведомления"
+        },
+        "show_alert": {
+          "name": "Показывать как alert",
+          "description": "Всплывающее окно вместо тоста"
+        },
+        "url": {
+          "name": "URL",
+          "description": "Ссылка для открытия"
+        }
+      }
+    }
   }
 }

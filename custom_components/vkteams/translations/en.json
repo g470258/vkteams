@@ -33,7 +33,7 @@
       "step": {
         "user": {
           "title": "Add allowed chat",
-          "description": "Enter chat ID or user ID (e.g., user@example.com or 123456789@chat.agent)",
+          "description": "Enter chat ID or user ID\n\n- User: user@example.com\n- Group: 123456789@chat.agent",
           "data": {
             "chat_id": "Chat ID"
           }
@@ -49,6 +49,196 @@
     "event": {
       "update_event": {
         "name": "Bot updates"
+      }
+    }
+  },
+  "services": {
+    "send_message": {
+      "name": "Send message",
+      "description": "Send a text message via VK Teams bot",
+      "fields": {
+        "message": {
+          "name": "Message",
+          "description": "Message text"
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "description": "Notify entities (optional)"
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "description": "Chat ID (alternative to entity_id)"
+        },
+        "title": {
+          "name": "Title",
+          "description": "Will be shown in bold"
+        },
+        "parse_mode": {
+          "name": "Parse mode",
+          "description": "HTML or MarkdownV2"
+        },
+        "buttons": {
+          "name": "Inline buttons",
+          "description": "Array of buttons"
+        },
+        "buttons_layout": {
+          "name": "Buttons layout",
+          "description": "row - horizontal, column - vertical"
+        },
+        "disable_notification": {
+          "name": "Silent",
+          "description": "Send without notification"
+        }
+      }
+    },
+    "send_photo": {
+      "name": "Send photo",
+      "description": "Send a photo message via VK Teams bot",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "Image URL"
+        },
+        "file": {
+          "name": "Local file",
+          "description": "Path to local file, e.g. /config/www/photo.jpg"
+        },
+        "caption": {
+          "name": "Caption",
+          "description": "Text under photo"
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "description": "Notify entities (optional)"
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "description": "Chat ID (alternative to entity_id)"
+        },
+        "buttons": {
+          "name": "Inline buttons",
+          "description": "Array of buttons under photo"
+        },
+        "buttons_layout": {
+          "name": "Buttons layout",
+          "description": "row - horizontal, column - vertical"
+        },
+        "disable_notification": {
+          "name": "Silent",
+          "description": "Send without notification"
+        }
+      }
+    },
+    "send_video": {
+      "name": "Send video",
+      "description": "Send a video message via VK Teams bot",
+      "fields": {
+        "url": {
+          "name": "URL",
+          "description": "Video URL"
+        },
+        "file": {
+          "name": "Local file",
+          "description": "Path to local file, e.g. /config/www/video.mp4"
+        },
+        "caption": {
+          "name": "Caption",
+          "description": "Text under video"
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "description": "Notify entities (optional)"
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "description": "Chat ID (alternative to entity_id)"
+        },
+        "buttons": {
+          "name": "Inline buttons",
+          "description": "Array of buttons under video"
+        },
+        "buttons_layout": {
+          "name": "Buttons layout",
+          "description": "row - horizontal, column - vertical"
+        },
+        "disable_notification": {
+          "name": "Silent",
+          "description": "Send without notification"
+        }
+      }
+    },
+    "edit_message": {
+      "name": "Edit message",
+      "description": "Edit an existing message",
+      "fields": {
+        "message_id": {
+          "name": "Message ID",
+          "description": "ID of message to edit"
+        },
+        "message": {
+          "name": "New text",
+          "description": "New message content"
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "description": "Notify entity (optional)"
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "description": "Chat ID (alternative to entity_id)"
+        },
+        "parse_mode": {
+          "name": "Parse mode",
+          "description": "HTML or MarkdownV2"
+        },
+        "buttons": {
+          "name": "Inline buttons",
+          "description": "New array of buttons"
+        },
+        "buttons_layout": {
+          "name": "Buttons layout",
+          "description": "row - horizontal, column - vertical"
+        }
+      }
+    },
+    "delete_messages": {
+      "name": "Delete messages",
+      "description": "Delete one or more messages",
+      "fields": {
+        "message_ids": {
+          "name": "Message IDs",
+          "description": "List of IDs to delete"
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "description": "Notify entity (optional)"
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "description": "Chat ID (alternative to entity_id)"
+        }
+      }
+    },
+    "answer_callback": {
+      "name": "Answer callback",
+      "description": "Answer an inline button click",
+      "fields": {
+        "query_id": {
+          "name": "Query ID",
+          "description": "Callback query ID"
+        },
+        "text": {
+          "name": "Text",
+          "description": "Notification text"
+        },
+        "show_alert": {
+          "name": "Show as alert",
+          "description": "Alert window instead of toast"
+        },
+        "url": {
+          "name": "URL",
+          "description": "Link to open"
+        }
       }
     }
   }
