@@ -176,6 +176,7 @@ data:
 <summary><b>🖼️ Отправка фото</b></summary>
 
 ```yaml
+# Отправка локального файла
 action: vkteams.send_photo
 data:
   file: "/config/www/photo.png"
@@ -193,11 +194,19 @@ data:
 <summary><b>🎬 Отправка видео</b></summary>
 
 ```yaml
+# Отправка локального файла
+action: vkteams.send_photo
+data:
+  file: "/config/www/video.mp4"
+  caption: "Видео с камеры из локального файла"
+
+# Отправка по URL
 action: vkteams.send_video
 data:
   url: "https://example.com/video.mp4"
-  caption: "Видео с камеры"
+  caption: "Видео с камеры из интернета"
 ```
+> ⚠️ Ограничение 50 Мб на файл
 </details>
 
 <details>
