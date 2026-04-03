@@ -137,7 +137,7 @@ data:
 ```yaml
 action: vkteams.send_photo
 data:
-  file: "/config/www/tracert.PNG"
+  file: "/config/www/photo.png"
   caption: "Локальное фото"
 
 # Отправка по URL
