@@ -3,7 +3,7 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 [![version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/g470258/vkteams)
 
-Интеграция для Home Assistant, позволяющая отправлять и получать сообщения через бота VK WorkSpace (VK Teams).
+Интеграция для Home Assistant, позволяющая отправлять и получать сообщения через бота супераппа VK WorkSpace (VK Teams).
 
 ## 📋 Возможности
 
