@@ -236,11 +236,78 @@ data:
 
 ### Обработка callback'ов от кнопок
 
+При нажатии на кнопку генерируется событие `vkteams_callback` со следующими данными:
+
 ```yaml
-alias: "Обработка кнопок VK Teams"
+trigger.event.data:
+  query_id: "SVR:user@domain.ru:123456789:1234567890:12345-1234567890"
+  callback_data: "light_on"
+  chat_id: "user@domain.ru"
+  user_id: "user@domain.ru"
+  user_name: "Имя Фамилия"
+  message:
+    msgId: "1234567890"
+    text: "Управление светом"
+    timestamp: 1234567890
+```
+
+#### Доступные поля
+
+| Поле | Описание |
+|------|----------|
+| `callback_data` | Данные, переданные в кнопке |
+| `query_id` | Уникальный ID запроса (нужен для ответа) |
+| `chat_id` | ID чата, откуда нажали кнопку |
+| `user_id` | ID пользователя, который нажал |
+| `user_name` | Имя и фамилия пользователя |
+| `message.msgId` | ID исходного сообщения с кнопками |
+| `message.text` | Текст исходного сообщения |
+
+#### Примеры шаблонов
+
+**Проверка значения callback_data:**
+```yaml
+conditions:
+  - condition: template
+    value_template: "{{ trigger.event.data.callback_data == 'light_on' }}"
+```
+
+**Извлечение ID пользователя:**
+```yaml
+variables:
+  user_id: "{{ trigger.event.data.user_id }}"
+  user_name: "{{ trigger.event.data.user_name }}"
+```
+
+**Удаление сообщения после нажатия:**
+```yaml
+action:
+  - service: vkteams.delete_messages
+    data:
+      chat_id: "{{ trigger.event.data.chat_id }}"
+      message_ids:
+        - "{{ trigger.event.data.message.msgId | int }}"
+```
+
+**Ответ с указанием кто нажал:**
+```yaml
+action:
+  - service: vkteams.send_message
+    data:
+      chat_id: "{{ trigger.event.data.chat_id }}"
+      message: "Пользователь {{ trigger.event.data.user_name }} нажал кнопку {{ trigger.event.data.callback_data }}"
+```
+
+#### Полный пример автоматизации
+
+```yaml
+alias: "Управление светом через VK Teams"
 trigger:
   - platform: event
     event_type: vkteams_callback
+condition:
+  - condition: template
+    value_template: "{{ trigger.event.data.callback_data in ['light_on', 'light_off', 'light_status'] }}"
 action:
   - choose:
       - conditions:
@@ -254,16 +321,81 @@ action:
             data:
               query_id: "{{ trigger.event.data.query_id }}"
               text: "✅ Свет включён"
+              
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.callback_data == 'light_off' }}"
+        sequence:
+          - service: light.turn_off
+            target:
+              entity_id: light.living_room
+          - service: vkteams.answer_callback
+            data:
+              query_id: "{{ trigger.event.data.query_id }}"
+              text: "✅ Свет выключен"
+              
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.callback_data == 'light_status' }}"
+        sequence:
+          - service: vkteams.send_message
+            data:
+              chat_id: "{{ trigger.event.data.chat_id }}"
+              message: "Статус света: {{ states('light.living_room') }}"
+          - service: vkteams.answer_callback
+            data:
+              query_id: "{{ trigger.event.data.query_id }}"
+              text: "📊 Статус отправлен"
 ```
 
-### События
+### Другие события
 
-| Событие | Описание |
-|---------|----------|
-| `vkteams_callback` | Нажатие на инлайн-кнопку |
-| `vkteams_command` | Получение команды (начинается с /) |
-| `vkteams_text` | Получение текстового сообщения |
-| `vkteams_sent` | Отправка сообщения ботом |
+#### Событие `vkteams_command` (команды, начинающиеся с /)
+
+```yaml
+trigger:
+  - platform: event
+    event_type: vkteams_command
+condition:
+  - condition: template
+    value_template: "{{ trigger.event.data.command == '/menu' }}"
+```
+
+Доступные поля:
+- `command` — команда (например, `/menu`)
+- `args` — аргументы команды
+- `chat_id` — ID чата
+- `user_id` — ID пользователя
+- `user_name` — имя пользователя
+- `text` — полный текст
+
+#### Событие `vkteams_text` (обычный текст)
+
+```yaml
+trigger:
+  - platform: event
+    event_type: vkteams_text
+```
+
+Доступные поля:
+- `text` — текст сообщения
+- `chat_id` — ID чата
+- `user_id` — ID пользователя
+- `user_name` — имя пользователя
+- `msg_id` — ID сообщения
+
+#### Событие `vkteams_sent` (отправка сообщения ботом)
+
+```yaml
+trigger:
+  - platform: event
+    event_type: vkteams_sent
+```
+
+Доступные поля:
+- `chat_id` — ID чата
+- `message_id` — ID отправленного сообщения
+- `text` — текст сообщения
 
 ### Notify-сущности
 
