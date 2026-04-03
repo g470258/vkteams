@@ -6,5 +6,6 @@
   "country": ["RU"],
   "homeassistant": "2024.1.0",
   "iot_class": "Cloud Polling",
-  "zip_release": false
+  "zip_release": true,
+  "filename": "vkteams.zip",
 }
