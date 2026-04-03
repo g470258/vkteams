@@ -177,28 +177,42 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     
     # Build keyboard helper
     def build_keyboard(buttons: list, layout: str = "row") -> list:
-        """Build inline keyboard markup."""
+        """Build inline keyboard markup.
+        
+        Args:
+            buttons: Either:
+                - List of buttons for row layout: [{"text": "Btn1"}, {"text": "Btn2"}]
+                - List of rows for grid layout: [[{"text": "Btn1"}, {"text": "Btn2"}], [{"text": "Btn3"}]]
+            layout: 
+                - "row" (default): all buttons in one horizontal row
+                - Any other value: ignored, buttons structure defines the layout
+        """
         if not buttons:
             return None
         
-        if layout == "row":
-            row = []
-            for btn in buttons:
-                row.append({
-                    "text": btn["text"],
-                    "callbackData": btn.get("callbackData", btn["text"]),
-                    "style": btn.get("style", "default")
-                })
-            return [row]
-        else:
+        # Если первый элемент - список (массив массивов) -> это сетка
+        if buttons and isinstance(buttons[0], list):
             rows = []
-            for btn in buttons:
-                rows.append([{
-                    "text": btn["text"],
-                    "callbackData": btn.get("callbackData", btn["text"]),
-                    "style": btn.get("style", "default")
-                }])
+            for row in buttons:
+                buttons_row = []
+                for btn in row:
+                    buttons_row.append({
+                        "text": btn["text"],
+                        "callbackData": btn.get("callbackData", btn["text"]),
+                        "style": btn.get("style", "default")
+                    })
+                rows.append(buttons_row)
             return rows
+        
+        # Иначе - все кнопки в одной строке (горизонтально)
+        row = []
+        for btn in buttons:
+            row.append({
+                "text": btn["text"],
+                "callbackData": btn.get("callbackData", btn["text"]),
+                "style": btn.get("style", "default")
+            })
+        return [row]
     
     # Event handler
     async def handle_event(event: dict):
