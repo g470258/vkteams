@@ -10,8 +10,8 @@ send_message:
         text:
           multiline: true
     entity_id:
-      name: Notify entities
-      description: Notify entities (optional, uses first allowed chat if not specified)
+      name: entity_id
+      description: Notify entities (optional)
       required: false
       selector:
         entity:
@@ -19,41 +19,34 @@ send_message:
           integration: vkteams
           multiple: true
     chat_id:
-      name: Chat IDs
-      description: Direct chat IDs (alternative to entity_id)
+      name: chat_id
+      description: Chat ID (alternative to entity_id)
       required: false
       selector:
         text:
           multiple: true
     title:
       name: Title
-      description: Optional title. Will be formatted as bold in HTML/MarkdownV2 modes
+      description: Will be shown in bold
       required: false
       selector:
         text:
     parse_mode:
       name: Parse mode
-      description: Message formatting mode. HTML (<b>bold</b>, <i>italic</i>) or MarkdownV2 (*bold*, _italic_)
+      description: HTML or MarkdownV2
       required: false
       selector:
         select:
           options: ["HTML", "MarkdownV2"]
     buttons:
       name: Inline buttons
-      description: 'Buttons: [{"text": "Button", "callbackData": "data", "style": "primary"}]'
+      description: List of buttons or list of rows for grid layout
       required: false
       selector:
         object:
-    buttons_layout:
-      name: Buttons layout
-      description: '"row" - horizontal (default), "column" - vertical'
-      required: false
-      selector:
-        select:
-          options: ["row", "column"]
     disable_notification:
-      name: Disable notification
-      description: Send message silently
+      name: Silent
+      description: Send without notification
       required: false
       selector:
         boolean:
@@ -63,26 +56,26 @@ send_photo:
   description: Send a photo message via VK Teams bot
   fields:
     url:
-      name: Image URL
-      description: URL of the image to send
+      name: URL
+      description: Image URL
       required: false
       selector:
         text:
     file:
-      name: Local file path
-      description: Absolute path to local image file (e.g., /config/www/photo.jpg)
+      name: Local file
+      description: Path to local file, e.g. /config/www/photo.jpg
       required: false
       selector:
         text:
     caption:
       name: Caption
-      description: Photo caption
+      description: Text under photo
       required: false
       selector:
         text:
     entity_id:
-      name: Notify entities
-      description: Notify entities (optional, uses first allowed chat if not specified)
+      name: entity_id
+      description: Notify entities (optional)
       required: false
       selector:
         entity:
@@ -90,26 +83,21 @@ send_photo:
           integration: vkteams
           multiple: true
     chat_id:
-      name: Chat IDs
-      description: Direct chat IDs (alternative to entity_id)
+      name: chat_id
+      description: Chat ID (alternative to entity_id)
       required: false
       selector:
         text:
           multiple: true
     buttons:
       name: Inline buttons
-      description: Buttons to display under the photo
+      description: List of buttons or list of rows for grid layout
       required: false
       selector:
         object:
-    buttons_layout:
-      name: Buttons layout
-      required: false
-      selector:
-        select:
-          options: ["row", "column"]
     disable_notification:
-      name: Disable notification
+      name: Silent
+      description: Send without notification
       required: false
       selector:
         boolean:
@@ -119,26 +107,26 @@ send_video:
   description: Send a video message via VK Teams bot
   fields:
     url:
-      name: Video URL
-      description: URL of the video to send
+      name: URL
+      description: Video URL
       required: false
       selector:
         text:
     file:
-      name: Local file path
-      description: Absolute path to local video file (e.g., /config/www/video.mp4)
+      name: Local file
+      description: Path to local file, e.g. /config/www/video.mp4
       required: false
       selector:
         text:
     caption:
       name: Caption
-      description: Video caption
+      description: Text under video
       required: false
       selector:
         text:
     entity_id:
-      name: Notify entities
-      description: Notify entities (optional, uses first allowed chat if not specified)
+      name: entity_id
+      description: Notify entities (optional)
       required: false
       selector:
         entity:
@@ -146,26 +134,21 @@ send_video:
           integration: vkteams
           multiple: true
     chat_id:
-      name: Chat IDs
-      description: Direct chat IDs (alternative to entity_id)
+      name: chat_id
+      description: Chat ID (alternative to entity_id)
       required: false
       selector:
         text:
           multiple: true
     buttons:
       name: Inline buttons
-      description: Buttons to display under the video
+      description: List of buttons or list of rows for grid layout
       required: false
       selector:
         object:
-    buttons_layout:
-      name: Buttons layout
-      required: false
-      selector:
-        select:
-          options: ["row", "column"]
     disable_notification:
-      name: Disable notification
+      name: Silent
+      description: Send without notification
       required: false
       selector:
         boolean:
@@ -176,33 +159,34 @@ edit_message:
   fields:
     message_id:
       name: Message ID
-      description: ID of the message to edit
+      description: ID of message to edit
       required: true
       selector:
         number:
     message:
-      name: New message
-      description: New message text
+      name: New text
+      description: New message content
       required: true
       selector:
         text:
           multiline: true
     entity_id:
-      name: Notify entity
-      description: Notify entity (optional, uses first allowed chat if not specified)
+      name: entity_id
+      description: Notify entity (optional)
       required: false
       selector:
         entity:
           domain: notify
           integration: vkteams
     chat_id:
-      name: Chat ID
-      description: Direct chat ID (alternative to entity_id)
+      name: chat_id
+      description: Chat ID (alternative to entity_id)
       required: false
       selector:
         text:
     parse_mode:
       name: Parse mode
+      description: HTML or MarkdownV2
       required: false
       selector:
         select:
@@ -213,64 +197,58 @@ edit_message:
       required: false
       selector:
         object:
-    buttons_layout:
-      name: Buttons layout
-      required: false
-      selector:
-        select:
-          options: ["row", "column"]
 
 delete_messages:
   name: Delete messages
-  description: Delete one or more messages (must be less than 48 hours old)
+  description: Delete one or more messages
   fields:
     message_ids:
       name: Message IDs
-      description: List of message IDs to delete
+      description: List of IDs to delete
       required: true
       selector:
         object:
     entity_id:
-      name: Notify entity
-      description: Notify entity (optional, uses first allowed chat if not specified)
+      name: entity_id
+      description: Notify entity (optional)
       required: false
       selector:
         entity:
           domain: notify
           integration: vkteams
     chat_id:
-      name: Chat ID
-      description: Direct chat ID (alternative to entity_id)
+      name: chat_id
+      description: Chat ID (alternative to entity_id)
       required: false
       selector:
         text:
 
 answer_callback:
   name: Answer callback
-  description: Answer a callback query from a button click
+  description: Answer an inline button click
   fields:
     query_id:
       name: Query ID
-      description: Callback query ID from the event
+      description: Callback query ID
       required: true
       selector:
         text:
     text:
-      name: Notification text
-      description: Text to show in notification
+      name: Text
+      description: Notification text
       required: false
       selector:
         text:
     show_alert:
       name: Show as alert
-      description: Show as alert window instead of toast
+      description: Alert window instead of toast
       required: false
       default: false
       selector:
         boolean:
     url:
       name: URL
-      description: URL to open when button is clicked
+      description: Link to open
       required: false
       selector:
         text:
