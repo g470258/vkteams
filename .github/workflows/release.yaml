@@ -7,7 +7,6 @@ on:
       - edited
       - prereleased
 
-
 permissions: {}
 
 jobs:
@@ -20,13 +19,26 @@ jobs:
       - name: "Checkout the repository"
         uses: "actions/checkout@v3.5.3"
 
+      - name: "Install jq"
+        run: sudo apt-get install -y jq
+
+      - name: "Set version from release tag"
+        shell: "bash"
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "Setting version to $VERSION"
+          jq --arg ver "$VERSION" '.version = $ver' \
+            custom_components/vkteams/manifest.json > tmp.json
+          mv tmp.json custom_components/vkteams/manifest.json
+
       - name: "ZIP the integration directory"
         shell: "bash"
         run: |
-          cd "${{ github.workspace }}/custom_components/vkteams"
-          zip vkteams.zip -r ./
+          cd custom_components/vkteams
+          zip -r ../vkteams.zip ./
+          cd ../..
 
       - name: "Upload the ZIP file to the release"
         uses: softprops/action-gh-release@v0.1.15
         with:
-          files: ${{ github.workspace }}/custom_components/vkteams/vkteams.zip
+          files: vkteams.zip
