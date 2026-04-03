@@ -113,6 +113,7 @@ class VKTeamsBot:
         self,
         chat_id: str,
         file_url: str = None,
+        file_path: str = None,
         file_data: bytes = None,
         filename: str = None,
         file_id: str = None,
@@ -123,6 +124,17 @@ class VKTeamsBot:
     ) -> Dict[str, Any]:
         """Send file via /messages/sendFile."""
         
+        # Если указан локальный путь к файлу
+        if file_path and not file_data:
+            try:
+                with open(file_path, "rb") as f:
+                    file_data = f.read()
+                    filename = filename or file_path.split("/")[-1] or "file.bin"
+            except Exception as e:
+                _LOGGER.error(f"Failed to read local file {file_path}: {e}")
+                return {"ok": False, "description": f"Failed to read local file: {e}"}
+        
+        # Если указан URL
         if file_url and not file_data:
             async with aiohttp.ClientSession() as session:
                 async with session.get(file_url) as resp:
@@ -131,6 +143,7 @@ class VKTeamsBot:
                     file_data = await resp.read()
                     filename = filename or file_url.split("/")[-1] or "file.bin"
         
+        # Если есть inline_keyboard и file_id
         if inline_keyboard and file_id:
             data = {
                 "chatId": chat_id,
@@ -143,6 +156,7 @@ class VKTeamsBot:
                 data["parseMode"] = parse_mode
             return await self._request_post_form(API_SEND_FILE, data)
         
+        # Если есть file_data
         if file_data:
             data = {"chatId": chat_id}
             if caption:
@@ -151,6 +165,7 @@ class VKTeamsBot:
                 data["parseMode"] = parse_mode
             return await self._request_post_file(API_SEND_FILE, data, file_data, filename)
         
+        # Если есть file_id
         params = {"chatId": chat_id}
         if file_id:
             params["fileId"] = file_id
@@ -163,13 +178,13 @@ class VKTeamsBot:
         
         return await self._request_get(API_SEND_FILE, params)
 
-    async def send_photo(self, chat_id: str, photo_url: str, caption: str = None, **kwargs) -> Dict[str, Any]:
+    async def send_photo(self, chat_id: str, photo_url: str = None, photo_path: str = None, caption: str = None, **kwargs) -> Dict[str, Any]:
         """Send a photo via /messages/sendFile."""
-        return await self.send_file(chat_id, file_url=photo_url, caption=caption, **kwargs)
+        return await self.send_file(chat_id, file_url=photo_url, file_path=photo_path, caption=caption, **kwargs)
 
-    async def send_video(self, chat_id: str, video_url: str, caption: str = None, **kwargs) -> Dict[str, Any]:
+    async def send_video(self, chat_id: str, video_url: str = None, video_path: str = None, caption: str = None, **kwargs) -> Dict[str, Any]:
         """Send a video via /messages/sendFile."""
-        return await self.send_file(chat_id, file_url=video_url, caption=caption, **kwargs)
+        return await self.send_file(chat_id, file_url=video_url, file_path=video_path, caption=caption, **kwargs)
 
     async def edit_message(
         self,
