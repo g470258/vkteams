@@ -1,7 +1,7 @@
 {
   "domain": "vkteams",
   "name": "VK Teams Bot",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "requirements": ["aiohttp>=3.9.0"],
   "dependencies": [],
   "codeowners": ["@g470258"],
