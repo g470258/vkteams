@@ -5,8 +5,6 @@
   "domains": ["notify", "event"],
   "country": ["RU"],
   "homeassistant": "2024.1.0",
-  "persistent_directory": "vkteams",
-  "iot_class": ["Cloud Polling"],
-  "zip_release": true,
-  "filename": "vkteams.zip"
+  "iot_class": "Cloud Polling",
+  "zip_release": false
 }
