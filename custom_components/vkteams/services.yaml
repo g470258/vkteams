@@ -159,10 +159,10 @@ edit_message:
   fields:
     message_id:
       name: Message ID
-      description: ID of message to edit
+      description: ID of message to edit (use {{ trigger.event.data.message.msgId }} in automations)
       required: true
       selector:
-        number:
+        text:  # text, а не number, чтобы работали шаблоны
     message:
       name: New text
       description: New message content
@@ -170,14 +170,6 @@ edit_message:
       selector:
         text:
           multiline: true
-    entity_id:
-      name: entity_id
-      description: Notify entity (optional)
-      required: false
-      selector:
-        entity:
-          domain: notify
-          integration: vkteams
     chat_id:
       name: chat_id
       description: Chat ID (alternative to entity_id)
@@ -197,6 +189,13 @@ edit_message:
       required: false
       selector:
         object:
+    buttons_layout:
+      name: Buttons layout
+      description: row - horizontal, column - vertical
+      required: false
+      selector:
+        select:
+          options: ["row", "column"]
 
 delete_messages:
   name: Delete messages

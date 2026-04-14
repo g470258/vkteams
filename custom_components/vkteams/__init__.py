@@ -431,6 +431,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         
         chat_id = chat_ids[0]
         
+        # Получаем message_id (может быть строкой-шаблоном или числом)
+        message_id_raw = call.data["message_id"]
+        try:
+            message_id = int(message_id_raw)
+        except (ValueError, TypeError):
+            # Если не число, возможно это шаблон, который нужно обработать
+            # Но в большинстве случаев это будет число из шаблона
+            _LOGGER.error(f"Invalid message_id: {message_id_raw}")
+            return
+        
         buttons = call.data.get("buttons")
         layout = call.data.get("buttons_layout", "row")
         inline_keyboard = build_keyboard(buttons, layout) if buttons else None
@@ -438,7 +448,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         
         await bot.edit_message(
             chat_id=chat_id,
-            msg_id=call.data["message_id"],
+            msg_id=message_id,
             text=call.data["message"],
             parse_mode=msg_parse_mode,
             inline_keyboard=inline_keyboard
